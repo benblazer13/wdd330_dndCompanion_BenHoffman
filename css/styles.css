@@ -1,0 +1,338 @@
+/* ==========================================================================
+   D&D Campaign Companion - base styles
+   Palette: parchment off-white with crimson trim, ink-brown text.
+   ========================================================================== */
+
+:root {
+  --paper: #faf6ee;
+  --paper-deep: #f1e9d8;
+  --ink: #2b211e;
+  --ink-soft: #5c4d47;
+  --crimson: #8c1c13;
+  --crimson-dark: #6b130c;
+  --rule: #d8c9b0;
+
+  --font-display: "IM Fell English", "Palatino Linotype", Georgia, serif;
+  --font-body: "EB Garamond", Georgia, "Times New Roman", serif;
+
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0 0 var(--space-1);
+}
+
+a {
+  color: var(--crimson);
+}
+
+:focus-visible {
+  outline: 3px solid var(--crimson);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--space-2);
+  top: -4rem;
+  background: var(--crimson);
+  color: var(--paper);
+  padding: var(--space-1) var(--space-2);
+  z-index: 10;
+}
+
+.skip-link:focus {
+  top: var(--space-1);
+}
+
+/* ---------- Header ---------- */
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-3) var(--space-2);
+  border-bottom: 4px double var(--crimson);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.brand h1 {
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  color: var(--crimson);
+  margin: 0;
+}
+
+.tagline {
+  margin: 0;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.tabs {
+  display: flex;
+  gap: var(--space-1);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tab {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  background: transparent;
+  color: var(--crimson);
+  border: 2px solid var(--crimson);
+  border-radius: 2px;
+  padding: 0.4rem 1.1rem;
+  cursor: pointer;
+}
+
+.tab[aria-pressed="true"] {
+  background: var(--crimson);
+  color: var(--paper);
+}
+
+/* ---------- Layout ---------- */
+
+main {
+  max-width: 70rem;
+  margin: 0 auto;
+  padding: var(--space-3);
+}
+
+.view h2 {
+  font-size: 1.9rem;
+  color: var(--crimson);
+}
+
+.search-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.search-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.search-row input {
+  flex: 1 1 14rem;
+  font: inherit;
+  padding: 0.55rem 0.8rem;
+  background: #fff;
+  color: var(--ink);
+  border: 2px solid var(--ink-soft);
+  border-radius: 2px;
+}
+
+.button {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  background: var(--crimson);
+  color: var(--paper);
+  border: 2px solid var(--crimson);
+  border-radius: 2px;
+  padding: 0.55rem 1.2rem;
+  cursor: pointer;
+}
+
+.button:hover {
+  background: var(--crimson-dark);
+  border-color: var(--crimson-dark);
+}
+
+.status {
+  min-height: 1.6em;
+  margin: var(--space-2) 0;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.status.is-error {
+  color: var(--crimson-dark);
+  font-style: normal;
+  font-weight: 600;
+}
+
+.results-layout {
+  display: grid;
+  grid-template-columns: minmax(12rem, 18rem) 1fr;
+  gap: var(--space-3);
+  align-items: start;
+}
+
+@media (max-width: 45rem) {
+  .results-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Result list ---------- */
+
+.result-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 32rem;
+  overflow-y: auto;
+}
+
+.result-list:not(:empty) {
+  border-top: 1px solid var(--rule);
+}
+
+.result-button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  background: transparent;
+  color: var(--ink);
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  padding: 0.6rem 0.4rem;
+  cursor: pointer;
+}
+
+.result-button:hover,
+.result-button[aria-current="true"] {
+  background: var(--paper-deep);
+  box-shadow: inset 4px 0 0 var(--crimson);
+}
+
+/* ---------- Detail cards (spell + stat block) ---------- */
+
+.detail:empty {
+  display: none;
+}
+
+.card {
+  background: #fffdf8;
+  border: 1px solid var(--rule);
+  border-top: 5px solid var(--crimson);
+  padding: var(--space-3);
+  animation: card-reveal 0.35s ease-out;
+}
+
+.card h3 {
+  font-size: 1.8rem;
+  color: var(--crimson);
+}
+
+.card .subtitle {
+  margin: 0 0 var(--space-2);
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.25rem var(--space-2);
+  margin: 0 0 var(--space-2);
+  padding: var(--space-1) 0;
+  border-block: 1px solid var(--rule);
+}
+
+.facts dt {
+  font-weight: 600;
+}
+
+.facts dd {
+  margin: 0;
+}
+
+.ability-scores {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(4.5rem, 1fr));
+  gap: var(--space-1);
+  margin: var(--space-2) 0;
+  text-align: center;
+}
+
+.ability-scores div {
+  border: 1px solid var(--rule);
+  padding: 0.3rem;
+}
+
+.ability-scores dt {
+  font-family: var(--font-display);
+  color: var(--crimson);
+}
+
+.ability-scores dd {
+  margin: 0;
+}
+
+.card h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.3rem;
+  color: var(--crimson);
+  margin: var(--space-2) 0 0.25rem;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid var(--crimson);
+}
+
+.card p {
+  margin: 0 0 0.75rem;
+}
+
+@keyframes card-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  padding: var(--space-3);
+  border-top: 1px solid var(--rule);
+  text-align: center;
+  color: var(--ink-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    animation: none;
+  }
+}

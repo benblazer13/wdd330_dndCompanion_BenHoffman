@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>D&amp;D Campaign Companion</title>
+  <meta name="description" content="Search D&amp;D 5e spells and monsters, and keep your campaign notes in one place. Built for dungeon masters.">
+  <link rel="icon" href="images/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&amp;family=IM+Fell+English:ital@0;1&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="brand">
+      <img src="images/logo.svg" alt="" width="56" height="56">
+      <div>
+        <h1>D&amp;D Campaign Companion</h1>
+        <p class="tagline">Every stat block and spell, one page away.</p>
+      </div>
+    </div>
+
+    <nav aria-label="Main">
+      <ul class="tabs">
+        <li><button type="button" class="tab" data-view="spells" aria-controls="view-spells" aria-pressed="true">Spells</button></li>
+        <li><button type="button" class="tab" data-view="monsters" aria-controls="view-monsters" aria-pressed="false">Monsters</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- Spell search -->
+    <section id="view-spells" class="view" aria-labelledby="spells-heading">
+      <h2 id="spells-heading">Spell search</h2>
+      <form id="spell-form" class="search-form" role="search">
+        <label for="spell-input">Spell name</label>
+        <div class="search-row">
+          <input id="spell-input" name="spell" type="search" placeholder="Try &quot;fire&quot; or &quot;shield&quot;" autocomplete="off" required>
+          <button type="submit" class="button">Search spells</button>
+        </div>
+      </form>
+      <p id="spell-status" class="status" role="status"></p>
+      <div class="results-layout">
+        <ul id="spell-results" class="result-list" aria-label="Spell results"></ul>
+        <div id="spell-detail" class="detail" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- Monster search -->
+    <section id="view-monsters" class="view" aria-labelledby="monsters-heading" hidden>
+      <h2 id="monsters-heading">Monster search</h2>
+      <form id="monster-form" class="search-form" role="search">
+        <label for="monster-input">Monster name</label>
+        <div class="search-row">
+          <input id="monster-input" name="monster" type="search" placeholder="Try &quot;goblin&quot; or &quot;dragon&quot;" autocomplete="off" required>
+          <button type="submit" class="button">Search monsters</button>
+        </div>
+      </form>
+      <p id="monster-status" class="status" role="status"></p>
+      <div class="results-layout">
+        <ul id="monster-results" class="result-list" aria-label="Monster results"></ul>
+        <div id="monster-detail" class="detail" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Rules data from the <a href="https://www.dnd5eapi.co/">D&amp;D 5e API</a>, based on the System Reference Document 5.1.</p>
+  </footer>
+</body>
+</html>
