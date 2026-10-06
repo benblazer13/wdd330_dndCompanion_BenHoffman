@@ -1,7 +1,16 @@
 /* ==========================================================================
-   D&D Campaign Companion - base styles
+   D&D Campaign Companion - styles
    Palette: parchment off-white with crimson trim, ink-brown text.
+
+   Sections
+   1. Tokens          6. Detail cards (spells, monsters)
+   2. Base            7. NPC form and library
+   3. Header          8. Animations
+   4. Forms, buttons  9. Footer
+   5. Search results 10. Reduced motion
    ========================================================================== */
+
+/* ---------- 1. Tokens ---------- */
 
 :root {
   --paper: #faf6ee;
@@ -18,7 +27,18 @@
   --space-1: 0.5rem;
   --space-2: 1rem;
   --space-3: 1.5rem;
+
+  --radius: 6px;
+  --shadow-sm: 0 1px 3px rgba(43, 33, 30, 0.18);
+  --shadow-md: 0 8px 20px rgba(43, 33, 30, 0.2);
+
+  /* Motion: one easing curve and two speeds keep everything consistent. */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --fast: 150ms;
+  --normal: 250ms;
 }
+
+/* ---------- 2. Base ---------- */
 
 *,
 *::before,
@@ -28,7 +48,8 @@
 
 body {
   margin: 0;
-  background: var(--paper);
+  background-color: var(--paper);
+  background-image: radial-gradient(circle at 15% 0%, #fffefb 0%, var(--paper) 55%);
   color: var(--ink);
   font-family: var(--font-body);
   font-size: 1.15rem;
@@ -67,7 +88,23 @@ a {
   top: var(--space-1);
 }
 
-/* ---------- Header ---------- */
+main {
+  max-width: 70rem;
+  margin: 0 auto;
+  padding: var(--space-3);
+}
+
+.view h2 {
+  font-size: 1.9rem;
+  color: var(--crimson);
+}
+
+.view h3 {
+  font-size: 1.5rem;
+  color: var(--crimson);
+}
+
+/* ---------- 3. Header ---------- */
 
 .site-header {
   display: flex;
@@ -83,6 +120,10 @@ a {
   display: flex;
   align-items: center;
   gap: var(--space-2);
+}
+
+.brand img {
+  transition: transform var(--normal) var(--ease);
 }
 
 .brand h1 {
@@ -111,9 +152,19 @@ a {
   background: transparent;
   color: var(--crimson);
   border: 2px solid var(--crimson);
-  border-radius: 2px;
+  border-radius: var(--radius);
   padding: 0.4rem 1.1rem;
   cursor: pointer;
+  transition: background-color var(--fast) ease, color var(--fast) ease,
+    transform var(--fast) ease;
+}
+
+.tab:hover {
+  transform: translateY(-2px);
+}
+
+.tab:not([aria-pressed="true"]):hover {
+  background: var(--paper-deep);
 }
 
 .tab[aria-pressed="true"] {
@@ -121,20 +172,10 @@ a {
   color: var(--paper);
 }
 
-/* ---------- Layout ---------- */
+/* ---------- 4. Forms, buttons, status ---------- */
 
-main {
-  max-width: 70rem;
-  margin: 0 auto;
-  padding: var(--space-3);
-}
-
-.view h2 {
-  font-size: 1.9rem;
-  color: var(--crimson);
-}
-
-.search-form label {
+.search-form label,
+.field label {
   display: block;
   font-weight: 600;
   margin-bottom: 0.25rem;
@@ -146,14 +187,64 @@ main {
   gap: var(--space-1);
 }
 
-.search-row input {
-  flex: 1 1 14rem;
+/* Shared look for every text control. */
+.search-row input,
+.field input[type="text"],
+.field select,
+.field textarea {
   font: inherit;
   padding: 0.55rem 0.8rem;
   background: #fff;
   color: var(--ink);
   border: 2px solid var(--ink-soft);
-  border-radius: 2px;
+  border-radius: var(--radius);
+  transition: border-color var(--fast) ease, box-shadow var(--normal) ease;
+}
+
+.search-row input:focus,
+.field input[type="text"]:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--crimson);
+  box-shadow: 0 0 0 4px rgba(140, 28, 19, 0.15);
+}
+
+/* Search boxes grow when focused and shrink back on blur. */
+.search-row input {
+  flex: 0 1 20rem;
+  max-width: 100%;
+  transition: flex-basis var(--normal) var(--ease), border-color var(--fast) ease,
+    box-shadow var(--normal) ease;
+}
+
+.search-row input:focus {
+  flex-basis: 32rem;
+}
+
+.field {
+  margin-bottom: var(--space-2);
+}
+
+.field input[type="text"],
+.field select,
+.field textarea {
+  width: 100%;
+}
+
+.field textarea {
+  resize: vertical;
+}
+
+.field input[type="file"] {
+  font: inherit;
+  max-width: 100%;
+}
+
+.hint {
+  margin: 0.25rem 0 0;
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--ink-soft);
 }
 
 .button {
@@ -162,14 +253,47 @@ main {
   background: var(--crimson);
   color: var(--paper);
   border: 2px solid var(--crimson);
-  border-radius: 2px;
+  border-radius: var(--radius);
   padding: 0.55rem 1.2rem;
   cursor: pointer;
+  transition: background-color var(--fast) ease, border-color var(--fast) ease,
+    transform var(--fast) ease, box-shadow var(--fast) ease;
 }
 
 .button:hover {
   background: var(--crimson-dark);
   border-color: var(--crimson-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.button:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: none;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+  transform: none;
+  box-shadow: none;
+}
+
+.button-quiet {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  background: transparent;
+  color: var(--crimson-dark);
+  border: 1px solid var(--crimson-dark);
+  border-radius: var(--radius);
+  padding: 0.2rem 0.8rem;
+  cursor: pointer;
+  transition: background-color var(--fast) ease, color var(--fast) ease;
+}
+
+.button-quiet:hover {
+  background: var(--crimson-dark);
+  color: var(--paper);
 }
 
 .status {
@@ -185,6 +309,22 @@ main {
   font-weight: 600;
 }
 
+/* Spinner shown while a request is in progress (see showStatus). */
+.status.is-loading::before {
+  content: "";
+  display: inline-block;
+  width: 0.9em;
+  height: 0.9em;
+  margin-right: 0.5em;
+  vertical-align: -0.1em;
+  border: 2px solid var(--rule);
+  border-top-color: var(--crimson);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* ---------- 5. Search results ---------- */
+
 .results-layout {
   display: grid;
   grid-template-columns: minmax(12rem, 18rem) 1fr;
@@ -198,8 +338,6 @@ main {
   }
 }
 
-/* ---------- Result list ---------- */
-
 .result-list {
   list-style: none;
   margin: 0;
@@ -210,6 +348,12 @@ main {
 
 .result-list:not(:empty) {
   border-top: 1px solid var(--rule);
+}
+
+/* Results appear one after another; --i is set in JS (setStagger). */
+.result-list li {
+  animation: item-in 0.3s var(--ease) backwards;
+  animation-delay: calc(var(--i, 0) * 40ms);
 }
 
 .result-button {
@@ -224,15 +368,19 @@ main {
   border-bottom: 1px solid var(--rule);
   padding: 0.6rem 0.4rem;
   cursor: pointer;
+  box-shadow: inset 0 0 0 var(--crimson);
+  transition: background-color var(--fast) ease, box-shadow var(--normal) var(--ease),
+    padding-left var(--normal) var(--ease);
 }
 
 .result-button:hover,
 .result-button[aria-current="true"] {
   background: var(--paper-deep);
   box-shadow: inset 4px 0 0 var(--crimson);
+  padding-left: 0.9rem;
 }
 
-/* ---------- Detail cards (spell + stat block) ---------- */
+/* ---------- 6. Detail cards (spells, monsters) ---------- */
 
 .detail:empty {
   display: none;
@@ -242,8 +390,10 @@ main {
   background: #fffdf8;
   border: 1px solid var(--rule);
   border-top: 5px solid var(--crimson);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
   padding: var(--space-3);
-  animation: card-reveal 0.35s ease-out;
+  animation: card-reveal 0.35s var(--ease);
 }
 
 .card h3 {
@@ -284,6 +434,7 @@ main {
 
 .ability-scores div {
   border: 1px solid var(--rule);
+  border-radius: var(--radius);
   padding: 0.3rem;
 }
 
@@ -310,43 +461,7 @@ main {
   margin: 0 0 0.75rem;
 }
 
-@keyframes card-reveal {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ---------- Footer ---------- */
-
-.site-footer {
-  padding: var(--space-3);
-  border-top: 1px solid var(--rule);
-  text-align: center;
-  color: var(--ink-soft);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .card {
-    animation: none;
-  }
-}
-
-
-
-/* ==========================================================================
-   NPC form and library (week 6)
-   ========================================================================== */
-
-.view h3 {
-  font-size: 1.5rem;
-  color: var(--crimson);
-}
+/* ---------- 7. NPC form and library ---------- */
 
 .npc-layout {
   display: grid;
@@ -361,62 +476,16 @@ main {
   }
 }
 
-.field {
-  margin-bottom: var(--space-2);
-}
-
-.field label {
+.portrait-preview img {
   display: block;
-  font-weight: 600;
-  margin-bottom: 0.25rem;
-}
-
-.field input[type="text"],
-.field select,
-.field textarea {
-  width: 100%;
-  font: inherit;
-  padding: 0.55rem 0.8rem;
-  background: #fff;
-  color: var(--ink);
-  border: 2px solid var(--ink-soft);
-  border-radius: 2px;
-}
-
-.field textarea {
-  resize: vertical;
-}
-
-.field input[type="file"] {
-  font: inherit;
-  max-width: 100%;
-}
-
-.hint {
-  margin: 0.25rem 0 0;
-  font-size: 1rem;
-  font-style: italic;
-  color: var(--ink-soft);
-}
-
-.button:disabled {
-  opacity: 0.6;
-  cursor: wait;
-}
-
-.button-quiet {
-  font-family: var(--font-body);
-  font-size: 1rem;
-  background: transparent;
-  color: var(--crimson-dark);
-  border: 1px solid var(--crimson-dark);
-  border-radius: 2px;
-  padding: 0.2rem 0.8rem;
-  cursor: pointer;
-}
-
-.button-quiet:hover {
-  background: var(--paper-deep);
+  width: 7rem;
+  height: 7rem;
+  margin-top: var(--space-1);
+  object-fit: cover;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  animation: card-reveal 0.3s var(--ease);
 }
 
 .npc-grid {
@@ -431,9 +500,13 @@ main {
 .npc-card {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   background: #fffdf8;
   border: 1px solid var(--rule);
   border-top: 5px solid var(--crimson);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--normal) var(--ease), box-shadow var(--normal) var(--ease);
 }
 
 .npc-portrait {
@@ -442,6 +515,16 @@ main {
   aspect-ratio: 1;
   object-fit: cover;
   border-bottom: 1px solid var(--rule);
+  transition: opacity 0.4s ease, transform 0.4s var(--ease);
+}
+
+/* Images start invisible and fade in once loaded (class set in JS). */
+img.npc-portrait {
+  opacity: 0;
+}
+
+img.npc-portrait.is-loaded {
+  opacity: 1;
 }
 
 .npc-portrait-empty {
@@ -486,8 +569,121 @@ main {
 }
 
 .trait-list li {
-  border: 1px solid var(--crimson);
-  border-radius: 2px;
-  padding: 0 0.5rem;
+  background: var(--paper-deep);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 0 0.7rem;
   font-size: 0.95rem;
+}
+
+.npc-card.is-entering {
+  animation: item-in 0.4s var(--ease) backwards;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+/* Must come after .is-entering so it wins when both classes are present. */
+.npc-card.is-leaving {
+  animation: card-leave 0.3s ease-in forwards;
+  pointer-events: none;
+}
+
+/* Hover effects only on devices that really hover (not touch screens). */
+@media (hover: hover) {
+  .brand img:hover {
+    transform: rotate(-6deg) scale(1.08);
+  }
+
+  .npc-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .npc-card:hover .npc-portrait {
+    transform: scale(1.05);
+  }
+}
+
+/* ---------- 8. Animations ---------- */
+
+/* Switching tabs. */
+.view:not([hidden]) {
+  animation: view-in 0.35s var(--ease);
+}
+
+@keyframes view-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* A list item sliding up into place. Used with "backwards" fill so the
+   hover transforms still work after the animation ends. */
+@keyframes item-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* A spell or stat block card appearing. */
+@keyframes card-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Deleting an NPC card. */
+@keyframes card-leave {
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- 9. Footer ---------- */
+
+.site-footer {
+  padding: var(--space-3);
+  border-top: 1px solid var(--rule);
+  text-align: center;
+  color: var(--ink-soft);
+}
+
+/* ---------- 10. Reduced motion ---------- */
+
+/* Users who ask for less motion get instant changes. Animations still
+   "finish" (in 0.01ms) so JS that waits for animationend keeps working. */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

@@ -49,6 +49,47 @@ export function clearElement(element) {
 export function showStatus(element, message, isError = false) {
   element.textContent = message;
   element.classList.toggle('is-error', isError);
+  element.classList.toggle('is-loading', !isError && message.endsWith('...'));
+}
+
+const MAX_STAGGER_STEPS = 12;
+
+/**
+ * Set the position used by CSS to delay an element's entrance animation,
+ * so a list of items appears one after another. Capped so long lists
+ * do not take forever to finish.
+ * @param {HTMLElement} element - The item to animate.
+ * @param {number} index - The item's position in the list.
+ * @returns {void}
+ */
+export function setStagger(element, index) {
+  element.style.setProperty('--i', String(Math.min(index, MAX_STAGGER_STEPS)));
+}
+
+/**
+ * Play the CSS "leaving" animation on an element and resolve when it ends.
+ * A timeout guarantees this always resolves, even if no animation runs.
+ * @param {HTMLElement} element - Element with an .is-leaving animation in CSS.
+ * @returns {Promise<void>} Resolves when the animation is done.
+ */
+export function animateOut(element) {
+  return new Promise((resolve) => {
+    /** Only react to this element's own animation, not its children's. */
+    function handleEnd(event) {
+      if (event.target === element) {
+        finish();
+      }
+    }
+
+    function finish() {
+      element.removeEventListener('animationend', handleEnd);
+      resolve();
+    }
+
+    element.addEventListener('animationend', handleEnd);
+    element.classList.add('is-leaving');
+    setTimeout(finish, 600);
+  });
 }
 
 /**
@@ -61,7 +102,7 @@ export function showStatus(element, message, isError = false) {
 export function renderResultList(listElement, items, onSelect) {
   clearElement(listElement);
 
-  items.forEach((item) => {
+  items.forEach((item, index) => {
     const button = createElement('button', { className: 'result-button', text: item.name });
     button.type = 'button';
     button.addEventListener('click', () => {
@@ -71,7 +112,9 @@ export function renderResultList(listElement, items, onSelect) {
       button.setAttribute('aria-current', 'true');
       onSelect(item);
     });
-    listElement.append(createElement('li', {}, [button]));
+    const listItem = createElement('li', {}, [button]);
+    setStagger(listItem, index);
+    listElement.append(listItem);
   });
 }
 
