@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>D&amp;D Campaign Companion</title>
-  <meta name="description" content="Search D&amp;D 5e spells and monsters, and keep your campaign notes in one place. Built for dungeon masters.">
+  <meta name="description"
+    content="Search D&amp;D 5e spells and monsters, and keep your campaign notes in one place. Built for dungeon masters.">
   <link rel="icon" href="images/logo.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&amp;family=IM+Fell+English:ital@0;1&amp;display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&amp;family=IM+Fell+English:ital@0;1&amp;display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <script type="module" src="js/app.js"></script>
 </head>
+
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
 
@@ -26,8 +31,12 @@
 
     <nav aria-label="Main">
       <ul class="tabs">
-        <li><button type="button" class="tab" data-view="spells" aria-controls="view-spells" aria-pressed="true">Spells</button></li>
-        <li><button type="button" class="tab" data-view="monsters" aria-controls="view-monsters" aria-pressed="false">Monsters</button></li>
+        <li><button type="button" class="tab" data-view="spells" aria-controls="view-spells"
+            aria-pressed="true">Spells</button></li>
+        <li><button type="button" class="tab" data-view="monsters" aria-controls="view-monsters"
+            aria-pressed="false">Monsters</button></li>
+        <li><button type="button" class="tab" data-view="npcs" aria-controls="view-npcs"
+            aria-pressed="false">NPCs</button></li>
       </ul>
     </nav>
   </header>
@@ -39,7 +48,8 @@
       <form id="spell-form" class="search-form" role="search">
         <label for="spell-input">Spell name</label>
         <div class="search-row">
-          <input id="spell-input" name="spell" type="search" placeholder="Try &quot;fire&quot; or &quot;shield&quot;" autocomplete="off" required>
+          <input id="spell-input" name="spell" type="search" placeholder="Try &quot;fire&quot; or &quot;shield&quot;"
+            autocomplete="off" required>
           <button type="submit" class="button">Search spells</button>
         </div>
       </form>
@@ -56,7 +66,8 @@
       <form id="monster-form" class="search-form" role="search">
         <label for="monster-input">Monster name</label>
         <div class="search-row">
-          <input id="monster-input" name="monster" type="search" placeholder="Try &quot;goblin&quot; or &quot;dragon&quot;" autocomplete="off" required>
+          <input id="monster-input" name="monster" type="search"
+            placeholder="Try &quot;goblin&quot; or &quot;dragon&quot;" autocomplete="off" required>
           <button type="submit" class="button">Search monsters</button>
         </div>
       </form>
@@ -66,10 +77,63 @@
         <div id="monster-detail" class="detail" aria-live="polite"></div>
       </div>
     </section>
+
+    <!-- NPC creation and library -->
+    <section id="view-npcs" class="view" aria-labelledby="npcs-heading" hidden>
+      <h2 id="npcs-heading">NPCs</h2>
+      <div class="npc-layout">
+        <div>
+          <h3>Create an NPC</h3>
+          <form id="npc-form" class="npc-form">
+            <div class="field">
+              <label for="npc-name">Name</label>
+              <input id="npc-name" name="name" type="text" maxlength="60" required>
+            </div>
+            <div class="field">
+              <label for="npc-role">Role</label>
+              <select id="npc-role" name="role" required>
+                <option value="">Choose a role</option>
+                <option>Ally</option>
+                <option>Villain</option>
+                <option>Merchant</option>
+                <option>Quest giver</option>
+                <option>Authority figure</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="npc-description">Description</label>
+              <textarea id="npc-description" name="description" rows="4" maxlength="600"></textarea>
+            </div>
+            <div class="field">
+              <label for="npc-traits">Personality traits</label>
+              <input id="npc-traits" name="traits" type="text" maxlength="200" aria-describedby="npc-traits-hint">
+              <p id="npc-traits-hint" class="hint">Separate traits with commas, like "gruff, loyal, afraid of cats".</p>
+            </div>
+            <div class="field">
+              <label for="npc-portrait">Portrait (optional)</label>
+              <input id="npc-portrait" name="portrait" type="file" accept="image/*"
+                aria-describedby="npc-portrait-hint">
+              <p id="npc-portrait-hint" class="hint">Images only, up to 5 MB. The image is stored on Cloudinary.</p>
+            </div>
+            <button type="submit" id="npc-submit" class="button">Save NPC</button>
+          </form>
+          <p id="npc-status" class="status" role="status"></p>
+        </div>
+
+        <div>
+          <h3>NPC library</h3>
+          <p id="npc-count" class="hint"></p>
+          <ul id="npc-library" class="npc-grid"></ul>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="site-footer">
     <p>Rules data from the <a href="https://www.dnd5eapi.co/">D&amp;D 5e API</a> and can be used for any 5e game.</p>
   </footer>
 </body>
+
 </html>
