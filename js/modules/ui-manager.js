@@ -11,6 +11,7 @@
  * @param {object} [options] - Optional settings.
  * @param {string} [options.className] - Class attribute.
  * @param {string} [options.text] - Text content.
+ * @param {object} [options.attrs] - Attributes to set, e.g. {src: 'a.png', alt: ''}.
  * @param {Array<Node>} [children] - Child nodes to append.
  * @returns {HTMLElement} The new element.
  */
@@ -21,6 +22,9 @@ export function createElement(tag, options = {}, children = []) {
   }
   if (options.text !== undefined) {
     element.textContent = options.text;
+  }
+  if (options.attrs) {
+    Object.entries(options.attrs).forEach(([name, value]) => element.setAttribute(name, value));
   }
   children.forEach((child) => element.append(child));
   return element;

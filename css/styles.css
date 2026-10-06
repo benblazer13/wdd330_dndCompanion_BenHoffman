@@ -336,3 +336,158 @@ main {
     animation: none;
   }
 }
+
+
+
+/* ==========================================================================
+   NPC form and library (week 6)
+   ========================================================================== */
+
+.view h3 {
+  font-size: 1.5rem;
+  color: var(--crimson);
+}
+
+.npc-layout {
+  display: grid;
+  grid-template-columns: minmax(16rem, 24rem) 1fr;
+  gap: var(--space-3);
+  align-items: start;
+}
+
+@media (max-width: 52rem) {
+  .npc-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.field {
+  margin-bottom: var(--space-2);
+}
+
+.field label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.field input[type="text"],
+.field select,
+.field textarea {
+  width: 100%;
+  font: inherit;
+  padding: 0.55rem 0.8rem;
+  background: #fff;
+  color: var(--ink);
+  border: 2px solid var(--ink-soft);
+  border-radius: 2px;
+}
+
+.field textarea {
+  resize: vertical;
+}
+
+.field input[type="file"] {
+  font: inherit;
+  max-width: 100%;
+}
+
+.hint {
+  margin: 0.25rem 0 0;
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.button-quiet {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  background: transparent;
+  color: var(--crimson-dark);
+  border: 1px solid var(--crimson-dark);
+  border-radius: 2px;
+  padding: 0.2rem 0.8rem;
+  cursor: pointer;
+}
+
+.button-quiet:hover {
+  background: var(--paper-deep);
+}
+
+.npc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: var(--space-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.npc-card {
+  display: flex;
+  flex-direction: column;
+  background: #fffdf8;
+  border: 1px solid var(--rule);
+  border-top: 5px solid var(--crimson);
+}
+
+.npc-portrait {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-bottom: 1px solid var(--rule);
+}
+
+.npc-portrait-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--paper-deep);
+  color: var(--crimson);
+  font-family: var(--font-display);
+  font-size: 4rem;
+}
+
+.npc-body {
+  padding: var(--space-2);
+}
+
+.npc-body h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.4rem;
+  color: var(--crimson);
+  margin: 0;
+}
+
+.npc-body .subtitle {
+  margin: 0 0 var(--space-1);
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.npc-body p {
+  margin: 0 0 0.75rem;
+}
+
+.trait-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  list-style: none;
+  margin: 0 0 var(--space-1);
+  padding: 0;
+}
+
+.trait-list li {
+  border: 1px solid var(--crimson);
+  border-radius: 2px;
+  padding: 0 0.5rem;
+  font-size: 0.95rem;
+}

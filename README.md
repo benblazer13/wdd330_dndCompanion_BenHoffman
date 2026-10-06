@@ -14,5 +14,5 @@ npm run lint
 
 ## Status
 - Week 5: project structure + D&D 5e API spell and monster search (done)
-- Week 6: NPC form, localStorage, Cloudinary uploads (planned)
+- Week 6: NPC form, localStorage, Cloudinary uploads (in progress)
 - Week 7: polish and animations (planned)
